@@ -1,2 +1,6 @@
 /data/WISDM-Dataset-Watch-Gyro-Raw/
 /.idea/
+/temp/10-fold-cross-validation
+/temp/confusion-matrix
+/temp/model
+/temp/sliced-data

@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-
+from src import logging
 from src import models
 
 
@@ -20,7 +20,7 @@ def train_mlp(model, dl_train, epochs, learning_rate, cuda):
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     # train Model
-    print("Start of training ...")
+    logging.info("Start of training ...")
     for epoch in range(epochs):
 
         # Training
@@ -50,42 +50,21 @@ def train_mlp(model, dl_train, epochs, learning_rate, cuda):
         train_acc.append((train_accuracy / len(dl_train)) * 100)
 
         # Output current status on console
-        print("Epoch: {:03d}/{:03d}".format(epoch + 1, epochs),
-              "Training loss: {:.3f}".format(running_loss / len(dl_train)),
-              "Training Accuracy: {:.3f}".format((train_accuracy / len(dl_train)) * 100))
+        logging.info("\tEpoch: {:03d}/{:03d}".format(epoch + 1, epochs) +
+                     ", Training loss: {:.3f}".format(running_loss / len(dl_train)) +
+                     ", Training Accuracy: {:.3f}".format((train_accuracy / len(dl_train)) * 100))
 
-    print("Training completed!")
+    logging.info("Training completed!")
 
     return model, train_losses
 
-# def testdifhyperparameter():
-#     """This funciton trys different values of the hyperparameter (user parameters) settings."""
-#
-#     base_model_list = [models.MLP_NET_V1()]
-#     batch_size = [16, 64, 128, 256, 512]  # Batch size
-#     learning_rate = [0.01, 0.001, 0.0001]  # Learning rate
-#
-#     # Test different models, batch sizes and learning rates
-#     for base_model in base_model_list:  # different models
-#         for ba in batch_size:  # different batch sizes
-#             for lr in learning_rate:  # different learning rates
-#                 print("Model:", base_model.__class__.__name__, " |  Optimizer: Adam  |  Batch size:", ba,
-#                       " |  Learning rate:", lr)
-#                 model, losses = train_mlp(base_model, 50, ba, lr, True, True)
-#                 print(model)
-#                 evaluation(model)
-#                 print()
 
-
-def run_train_mlp(dl_train, epochs, learning_rate, cuda):
+def run_train_mlp(dl_train, epochs, learning_rate, cuda, model_path):
     """This function performs the training and validation for the MLP"""
-
     mlp_v1_model = models.MLP()
 
     # train the model
     model, train_losses = train_mlp(mlp_v1_model, dl_train, epochs, learning_rate, cuda)
 
-    torch.save(model, "temp/model/model.pth")
-    # model = torch.load("temp/model/model.pth")
-    # testdifhyperparameter()
+    torch.save(model, model_path)
     return model
