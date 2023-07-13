@@ -2,7 +2,7 @@ import numpy as np
 import pycatch22
 
 
-def extract(windows, featurize) -> list:
+def extract(windows, featurize):
     features = []  # FOR ALL WINDOWS
 
     for window in windows:

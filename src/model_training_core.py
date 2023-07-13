@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-# from src import helpers
 from src import models
 
 
@@ -57,56 +56,7 @@ def train_mlp(model, dl_train, epochs, learning_rate, cuda):
 
     print("Training completed!")
 
-    # plotting
-    # if (plots == True):
-    # helpers.plot_loss_and_acc(epochs, train_losses, train_acc)
-
     return model, train_losses
-
-
-def evaluation(model, cuda, dl_test):
-    """This function performs the evaluation of the model with the test data set."""
-    # Input:
-    # model; the pytorch trained model
-
-    if cuda:
-        # moving model to GPU if available
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        # print(device)   # only for testing
-        model = model.to(device)
-    else:
-        device = "cpu"
-
-    # monitoring - evaluate test loss
-    print("Start of validation ...")
-    with torch.no_grad():  # no gradients, because just monitoring, no optimization
-
-        model.eval()  # Set the model to evaluation mode
-        old_id = 0
-        bestpred = []
-        for batch in dl_test:
-
-            new_id = int(batch[0, 0].item())
-            x_batch, y_batch = batch[0], batch[1]
-            x_batch = x_batch.to(device)
-            y_batch = y_batch.to(device)
-            prediction = model(x_batch)
-            top_p, top_class = torch.exp(prediction).topk(1, dim=1)
-            top_class = top_class.long()
-
-            # Check sample_id and write value in txt if changed
-            if old_id == new_id:
-                if not bestpred:
-                    bestpred = top_class
-                else:
-                    bestpred = torch.cat((bestpred, top_class))
-            else:
-                bestpred = top_class
-
-            old_id = new_id
-
-    print("Validation completed!")
-
 
 # def testdifhyperparameter():
 #     """This funciton trys different values of the hyperparameter (user parameters) settings."""
@@ -127,21 +77,15 @@ def evaluation(model, cuda, dl_test):
 #                 print()
 
 
-def run_train_mlp(dl_train, dl_test, epochs=100, learning_rate=0.001, cuda=True, plots=True):
-    """This function performs the training and validation for the MLPm CNN V1 and GRU."""
-    # The model, hyperparameters and other settings can be changed directly in this function.
+def run_train_mlp(dl_train, epochs, learning_rate, cuda):
+    """This function performs the training and validation for the MLP"""
 
     mlp_v1_model = models.MLP()
 
     # train the model
     model, train_losses = train_mlp(mlp_v1_model, dl_train, epochs, learning_rate, cuda)
 
-    # only for testing
-    # print(train_losses)
-    # print("Parameters of the model:", helpers.count_parameters_of_model(model))
     torch.save(model, "temp/model/model.pth")
-    model = torch.load("temp/model/model.pth")
+    # model = torch.load("temp/model/model.pth")
     # testdifhyperparameter()
-
-    # evaluate the model
-    evaluation(model, cuda, dl_test)
+    return model

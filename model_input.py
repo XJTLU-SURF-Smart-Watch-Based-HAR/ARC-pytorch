@@ -20,5 +20,3 @@ if __name__ == '__main__':
 
     np.save('temp/sliced-data/feature.npy', feature)
     np.save('temp/sliced-data/label.npy', label)
-
-    print(np.unique(label))

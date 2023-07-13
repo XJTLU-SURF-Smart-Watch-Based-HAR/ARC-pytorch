@@ -1,24 +1,6 @@
 import torch
 import torch.nn as nn
-import torch.optim as optim
 
-
-# 定义MLP模型
-# class MLP(nn.Module):
-#     def __init__(self, input_size, hidden_size, output_size):
-#         super(MLP, self).__init__()
-#         self.fc1 = nn.Linear(input_size, hidden_size)
-#         self.relu = nn.ReLU()
-#         self.fc2 = nn.Linear(hidden_size, hidden_size)
-#         self.fc3 = nn.Linear(hidden_size, output_size)
-#
-#     def forward(self, x):
-#         out = self.fc1(x)
-#         out = self.relu(out)
-#         out = self.fc2(out)
-#         out = self.relu(out)
-#         out = self.fc3(out)
-#         return out
 
 class MLP(nn.Module):
     """Class to design a MLP model."""
@@ -28,16 +10,19 @@ class MLP(nn.Module):
 
         super().__init__()
 
+        first_layer = 256
+        second_layer = 256
+
         self.relu = nn.ReLU()
         self.dropout = nn.Dropout(0.5)
-        self.softmax = nn.Softmax(dim = 1)
+        self.softmax = nn.Softmax(dim=1)
 
-        self.bnin = nn.BatchNorm1d(128)
-        self.bnbout = nn.BatchNorm1d(128)
+        self.bnin = nn.BatchNorm1d(first_layer)
+        self.bnbout = nn.BatchNorm1d(second_layer)
 
-        self.linin = nn.Linear(72, 128, bias = True)
-        self.linbout = nn.Linear(128, 128, bias = True)
-        self.linout = nn.Linear(128, 18, bias = True)
+        self.linin = nn.Linear(72, first_layer, bias=True)
+        self.linbout = nn.Linear(first_layer, second_layer, bias=True)
+        self.linout = nn.Linear(second_layer, 18, bias=True)
 
     def forward(self, input_data):
         """The layers are stacked to transport the data through the neural network for the forward part."""

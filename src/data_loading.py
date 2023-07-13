@@ -32,7 +32,7 @@ class Slider:
             return None
 
 
-def write2log(subject_id, activity_code, content: list, output: TextIO):
+def write2log(subject_id, activity_code, content, output: TextIO):
     output.write(f"subject_id-{subject_id}, activity_code-{activity_code}: ")
     output.write(str(content))
     output.write("\n\n")
