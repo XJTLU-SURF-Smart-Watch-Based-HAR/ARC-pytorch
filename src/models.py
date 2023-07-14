@@ -1,3 +1,9 @@
+"""
+@File   :   models.py
+@Date   :   2023/7/14
+@Description    :   This file is for defining the models
+"""
+
 import torch
 import torch.nn as nn
 

@@ -1,3 +1,10 @@
+"""
+@File   :   model_train.py
+@Date   :   2023/7/14
+@Description    :   This file is for training a model after running the model_input.py.
+                    Model and evaluation results will be saved accordingly.
+"""
+
 import numpy as np
 import torch
 from numpy import float32
@@ -17,18 +24,22 @@ if __name__ == '__main__':
     logging.init()
     data = np.load('temp/sliced-data/feature.npy').astype(float32)
     label = np.load('temp/sliced-data/label.npy')
-    cuda = True
-    learning_rate = 0.001
-    avg_accuracy = 0
+
     if MACRO_DEVELOPMENT:
         n_split = 3
         epochs = 10
+        cuda = True
+        learning_rate = 0.001
+        avg_accuracy = 0
     else:
         n_split = 10
         epochs = 100
+        cuda = True
+        learning_rate = 0.001
+        avg_accuracy = 0
 
-    logging.info(f"Split to {n_split} folds")
     # balance the number of activities in both train and test sets, via StratifiedKFold
+    logging.info(f"Split to {n_split} folds")
     kf = StratifiedKFold(n_splits=n_split, shuffle=True, random_state=28)
 
     for i, (train_index, test_index) in enumerate(kf.split(data, label)):

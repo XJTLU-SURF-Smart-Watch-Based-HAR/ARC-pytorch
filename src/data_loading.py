@@ -1,10 +1,18 @@
+"""
+@File   :   data_loading.py
+@Date   :   2023/7/14
+@Description    :   This file is for slicing the time series data into windows
+"""
+
 from typing import Optional, TextIO
 import re
-
 import numpy as np
 
 
 class Slider:
+    """
+    A stack for sliding the window
+    """
     def __init__(self, window_size=40, step_size=20):
         self.tmp = []
         self.WINDOW_SIZE = window_size
@@ -39,6 +47,11 @@ def write2log(subject_id, activity_code, content, output: TextIO):
 
 
 def label_parser(alpha):
+    """
+    This is an auxiliary function to fix the lost of activity code "N" in the WIDSM dataset
+    @param alpha: activity code
+    @return:
+    """
     alpha = ord(alpha)
     if alpha > ord('N'):
         alpha -= 1

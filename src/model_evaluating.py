@@ -1,11 +1,18 @@
+"""
+@File   :   model_evaluating.py
+@Date   :   2023/7/14
+@Description    :   This file is for evaluating the model via test data
+"""
+
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import confusion_matrix
 from src import logging
 
+
 def plot_confusion_matrix(cm, classes, description, confusion_matrix_path):
-    plt.figure(figsize=(8, 6), dpi=480)  # 调整图像大小和分辨率
+    plt.figure(figsize=(8, 6), dpi=480)
     plt.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
     plt.title('Confusion Matrix')
     plt.colorbar()
@@ -29,7 +36,7 @@ def plot_confusion_matrix(cm, classes, description, confusion_matrix_path):
 
     plt.tight_layout()
     # plt.savefig(confusion_matrix_path+'.pdf', format='pdf')
-    plt.savefig(confusion_matrix_path+'.jpg', format='jpeg')
+    plt.savefig(confusion_matrix_path + '.jpg', format='jpeg')
 
 
 def evaluate(model, dl_test, class_names, cuda, confusion_matrix_path):
@@ -74,7 +81,8 @@ def evaluate(model, dl_test, class_names, cuda, confusion_matrix_path):
         cm = confusion_matrix(true_labels, predicted_labels)
 
         # Plot confusion matrix
-        plot_confusion_matrix(cm, classes=class_names, description=description, confusion_matrix_path=confusion_matrix_path)
+        plot_confusion_matrix(cm, classes=class_names, description=description,
+                              confusion_matrix_path=confusion_matrix_path)
         # plt.show()
 
     return accuracy

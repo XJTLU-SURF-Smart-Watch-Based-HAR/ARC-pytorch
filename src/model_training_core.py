@@ -1,3 +1,9 @@
+"""
+@File   :   model_training_core.py
+@Date   :   2023/7/14
+@Description    :   This file is the core for training a model, you could add more model's training here
+"""
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -6,6 +12,15 @@ from src import models
 
 
 def train_mlp(model, dl_train, epochs, learning_rate, cuda):
+    """
+
+    @param model:
+    @param dl_train:
+    @param epochs:
+    @param learning_rate:
+    @param cuda:
+    @return:
+    """
     train_losses = []
     train_acc = []
 
