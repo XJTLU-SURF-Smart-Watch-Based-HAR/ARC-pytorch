@@ -8,6 +8,7 @@ Currently, the data input process does not utilize PyTorch's recommended Custom 
 1. You have to create two conda environments to separately run the model_input.py & model_train.py.
 
 Possible CLI:
+
 To run model_input.py
 ```commandline
 conda env create --name model_input_related
@@ -21,7 +22,7 @@ To run model_train.py
 conda env create --name model_train_related
 conda activate model_train_related
 conda install -c conda-forge pytorch
-...(numPY, matplotlib, sklearn, e.t.c.)
+...(numPY, matplotlib, sklearn, cuda, e.t.c.)
 ```
 
 # Repository Structure
